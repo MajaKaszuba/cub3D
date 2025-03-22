@@ -1,7 +1,7 @@
-NO textures/TCom_Rock_CliffLayered_1.5x1.5_512_ao.xpm
-SO textures/TCom_Rock_CliffLayered_1.5x1.5_512_height.xpm
-WE textures/TCom_Rock_CliffLayered_1.5x1.5_512_normal.xpm
-EA textures/TCom_Rock_CliffLayered_1.5x1.5_512_north.xpm
+NO textures/wall_north.xpm
+SO textures/wall_south.xpm
+WE textures/wall_west.xpm
+EA textures/wall_east.xpm
 F 220,100,0
 C 225,30,0
 
