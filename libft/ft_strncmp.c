@@ -3,43 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/02 13:07:06 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/03/02 13:10:49 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/26 20:22:49 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/03/06 10:25:45 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
+
+#include "libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	unsigned char	*str1;
-	unsigned char	*str2;
-
-	str1 = (unsigned char *)s1;
-	str2 = (unsigned char *)s2;
-	while (n > 0)
+	while (*s1 && *s2 && *(unsigned char *)s1 == *(unsigned char *)s2 && n > 0)
 	{
-		if (*str1 != *str2)
-			return (*str1 - *str2);
+		s1++;
+		s2++;
 		n--;
-		str1++;
-		str2++;
 	}
-	return (0);
+	if (n == 0)
+		return (0);
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
-/*int	main()
+//(17)- while elements in while are more than 0 we will continue a loop.
+//(19-20)-	we iterate our index 's1' 's2'  to chekc another caracter.
+//(21)-	we decrent amount of spots left to check
+//(23-24)- if n will be 0 than return 0.
+//(25)-	retur value of diference between characters in ASCII.
+
+/*
+#include <stdio.h>
+
+int	main(void)
 {
-	char	s1[] = ("giga");
-	char	s2[] = ("slay");
-	size_t	n = 2;
-	char	x;
-	x = ft_strncmp(s1, s2, n);
-	printf("%d",x);
-	x = strncmp(s1, s2, n);
-	printf("\n");
-	printf("%d", x);
-}*/
+	char	c[] = "zdanie";
+	char	b[] = "zdnie";
+
+	printf("%d", ft_strncmp(c, b, 1));
+}
+*/

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 17:57:46 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/02/28 17:59:52 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/26 15:54:23 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/03/05 14:48:34 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
-#include <stdio.h>
+
+#include "libft.h"
 
 size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (s[i] != '\0')
@@ -24,10 +24,17 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-/*int	main()
+//(17)- 'i' store the lenght of '*s'
+//(19)- 'i' set to 0 as starting value.
+//(20-23)- iterate till 's[i]' is nor NULL
+//(24)return 'i'
+
+/*
+#include <stdio.h>
+
+int	main(void)
 {
-	int	x;
-	char	str[] = "abcdef";
-	x = ft_strlen(str);
-	printf("%d", x);
-}*/
+	printf("%ld", ft_strlen("jhshshchs"));
+	return (0);
+}
+*/

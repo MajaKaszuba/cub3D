@@ -3,44 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/05 19:12:20 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/03/05 19:22:16 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/27 10:29:08 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/06/20 17:52:45 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
-#include <stdlib.h>
+
 #include "libft.h"
-#include <string.h>
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*memory;
+	void	*ptr;
 
-	if (size && (4294967295 / size < nmemb))
-		return (NULL);
-	memory = malloc(nmemb * size);
-	if (memory != NULL)
-		ft_memset(memory, 0, nmemb * size);
-	return (memory);
+	ptr = malloc(nmemb * size);
+	if (ptr == NULL)
+		return (ptr);
+	ft_bzero(ptr, size * nmemb);
+	return (ptr);
 }
 
-/*int	main()
-{	
-	size_t	nmemb = 5;
-	size_t size = sizeof(int);
-	int* dyn_array = (int*)ft_calloc(nmemb, size);
+// (17) Declare 'b' to store the total number of bytes to allocate.
+// (18) Declare 'p' as to store the address of the allocated memory.
+// (20-24) If 'nmemb' or 'n' is 0, or overflow return NULL.
+// (25) Calculate total bytes to allocate.
+// (26) Allocate 'b' biter of memory nd assign to adres of 'p'.
+// (27-28) If allocation fails return NULL.
+// (30) If alocation was succesfull set allocated memory to 0.
+// (31)	Return pointer to the allocated memory and zero-initialized memory.
 
-	if (dyn_array != NULL) {
-		for (size_t i = 0; i < nmemb; i++) {
-			printf("dyn_array[%zu] = %d\n", i, dyn_array[i]);
-		}
+/*
+//#include <stdio.h>
 
-		free(dyn_array);
-	} else {
-		printf("Błąd alokacji pamięci.\n");
-	}
+int	main(void)
+{
+	int *arr = ft_calloc(3, sizeof(int));
+	char *str = ft_calloc(5, sizeof(char));
 
-	return 0;
+	printf("arr: %p\n", arr);
+	printf("str: %p\n", str);
+
+	return (0);
 }*/

@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/01 18:52:44 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/03/01 18:55:15 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/26 19:54:47 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/06/18 13:17:02 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
-#include <stdio.h>
+
+#include "libft.h"
 
 int	ft_tolower(int c)
 {
-	if (c > 64 && c < 91)
+	if (c >= 'A' && c <= 'Z')
 	{
-		c += 32;
-		return (c);
+		return (c + 32);
 	}
 	else
 	{
@@ -25,9 +24,21 @@ int	ft_tolower(int c)
 	}
 }
 
-/*int main ()
+/*
+#include <stdio.h>
+
+int	main(void)
 {
-	int c = 116;
-	c = ft_tolower(c);
-	printf("%c", c);
-}*/
+	char	str[] = "Hello, World!";
+	int		i;
+
+	i = 0;
+	while (str[i])
+	{
+		str[i] = ft_tolower(str[i]);
+		i++;
+	}
+	printf("Lowercase string: %s\n", str);
+	return (0);
+}
+*/

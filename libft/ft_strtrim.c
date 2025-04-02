@@ -3,63 +3,86 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 14:02:28 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/03/08 14:03:56 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/28 09:00:48 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/03/06 19:30:26 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
-#include <stdio.h>
 
-static char	*s_start(const char *s1, const char *set)
+static int	ft_char_in_set(char c, char const *set)
 {
-	while (*s1 && ft_strchr(set, *s1))
-		s1++;
-	return ((char *)s1);
-}
+	size_t	i;
 
-static char	*s_end(char *s1, const char *set)
-{
-	char	*end;
-
-	end = s1 + ft_strlen(s1) - 1;
-	while (end > s1 && ft_strchr(set, *end))
-		end--;
-	return (end);
+	i = 0;
+	while (set[i])
+	{
+		if (set[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*trimmed;
-	char	*start;
-	char	*end;
-	size_t	trimmedlen;
+	char	*str;
+	size_t	i;
+	size_t	start;
+	size_t	end;
 
-	if (s1 == NULL)
+	end = ft_strlen(s1);
+	start = 0;
+	while (s1[start] && ft_char_in_set(s1[start], set))
+		start++;
+	while (end > start && ft_char_in_set(s1[end - 1], set))
+		end--;
+	str = (char *)malloc(sizeof(*s1) * (end - start + 1));
+	if (!str)
 		return (NULL);
-	start = s_start(s1, set);
-	if (*start == '\0')
-	{
-		trimmed = (char *)malloc(1);
-		if (trimmed == NULL)
-			return (NULL);
-		trimmed[0] = '\0';
-		return (trimmed);
-	}
-	end = s_end(start, set);
-	trimmedlen = (size_t)(end - start + 1);
-	trimmed = (char *)malloc(trimmedlen + 1);
-	if (trimmed == NULL)
-		return (NULL);
-	ft_strlcpy(trimmed, start, trimmedlen + 1);
-	trimmed[trimmedlen] = '\0';
-	return (trimmed);
+	i = 0;
+	while (start < end)
+		str[i++] = s1[start++];
+	str[i] = '\0';
+	return (str);
 }
 
-/*int main()
+// PART-1
+//(17)- Index for looping through the set.
+//(19)- Initialize index to start from the beginning of the set.
+//(20)- Loop through each character in the set until the end.
+//(22)- Check if the current character in the set matches 'c'.
+//(23)- Return 1 (true) if a match is found.
+//(24)- Increment the index to move to the next character in the set.
+//(26)- Return 0 (false) if no match is found by the end of the set.
+
+// PART-2
+//(31)- Pointer to the trimmed string.
+//(32)- Iterator for copying characters to 'str'.
+//(33)- Index to mark the start of non-set characters in 's1'.
+//(34)- Index to mark the end of non-set characters in 's1'.
+//(36)- Initialize 'end' with the length of 's1'.
+//(37)- Initialize 'start' at the beginning of 's1'.
+//(38-39)- Increment 'start' past leading set chars.
+//(40-41)- Decrement 'end' to exclude trailing set chars.
+//(42)- Allocate memory for the trimmed string.
+//(43)- Check if memory allocation failed.
+//(44)- Return NULL if allocation failed.
+//(45)- Initialize iterator for copying characters.
+//(46)- Copy characters from 'start' to 'end' from 's1' to 'str'.
+//(47)- Increment both 'start' and 'i' during copy.
+//(48)- Null-terminate the new string.
+//(49)- Return the trimmed string.
+
+/*
+#include <stdio.h>
+#include <unistd.h>
+
+int	main(void)
 {
-	const char s1[] = "  Hello, world ! ";
-	const char set[] = "! ";
-	printf("%s", ft_strtrim(s1, set));
-}*/
+	printf("%s", ft_strtrim("** hello w*rld*", "*"));
+	return (0);
+}
+*/

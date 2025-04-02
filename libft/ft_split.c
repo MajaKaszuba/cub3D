@@ -3,84 +3,111 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 14:43:19 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/03/08 14:45:08 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/28 18:44:48 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/06/18 13:15:14 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-static int	count_words(char const *s, char c)
+static void	*ft_free(char **strs, int count)
 {
-	int	count;
-	int	in_word;
+	int	i;
 
-	count = 0;
-	in_word = 0;
-	while (*s)
+	i = 0;
+	while (i < count)
 	{
-		if (*s != c && !in_word)
-		{
-			count++;
-			in_word = 1;
-		}
-		else if (*s == c)
-			in_word = 0;
-		s++;
+		free(strs[i]);
+		i++;
 	}
-	return (count);
+	free(strs);
+	return (NULL);
 }
 
-static int	word_length(char const *s, char c)
+static size_t	ft_countwords(const char *s, char c)
 {
-	int	length;
+	size_t	i;
 
-	length = 0;
-	while (*s && *s != c)
+	i = 0;
+	if (!*s)
+		return (0);
+	while (*s)
 	{
-		length++;
-		s++;
+		while (*s == c)
+			s++;
+		if (*s)
+			i++;
+		while (*s != c && *s)
+			s++;
 	}
-	return (length);
+	return (i);
+}
+
+static char	*word_copy(const char *str, int start, int end)
+{
+	char	*word;
+	int		i;
+
+	i = 0;
+	word = malloc((end - start + 1) * sizeof(char));
+	if (!word)
+		return (NULL);
+	while (start < end)
+		word[i++] = str[start++];
+	word[i] = '\0';
+	return (word);
+}
+
+static void	ft_initiate_vars(size_t *i, int *j, int *index)
+{
+	*i = 0;
+	*j = 0;
+	*index = -1;
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		num_words;
-	char	**result;
-	int		i;
+	int		j;
+	int		index;
+	char	**word;
+	size_t	i;
 
-	if (!s)
+	ft_initiate_vars(&i, &j, &index);
+	word = (char **)ft_calloc((ft_countwords(s, c) + 1), sizeof(char *));
+	if (!word)
 		return (NULL);
-	num_words = count_words(s, c);
-	result = malloc((num_words + 1) * sizeof(char *));
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (i < num_words)
+	while (i <= ft_strlen(s))
 	{
-		while (*s == c)
-			s++;
-		result[i] = ft_substr(s, 0, word_length(s, c));
-		if (!result[i])
-			return (NULL);
-		s += word_length(s, c);
+		if (s[i] != c && index < 0)
+			index = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
+		{
+			word[j] = word_copy(s, index, i);
+			if (word[j] == NULL)
+				return (ft_free(word, j));
+			index = -1;
+			j++;
+		}
 		i++;
 	}
-	result[i] = NULL;
-	return (result);
+	word[j] = 0;
+	return (word);
 }
 
-// int main() {
-//     const char* s = "lorem ipsum dolor sit amet.";
-//     char c = ' ';
-//     char** result = ft_split(s, c);
-//     for (int i = 0; result[i] != NULL; i++) {
-//         printf("%s\n", result[i]);
-//     }
-// 		free(result);
-//     return 0;
-// }
+/*
+#include <stdio.h>
+
+int	main(void)
+{
+	const char	*test_cases[] = {"This is a string", "This, is, a, string", "",
+			"  ", NULL};
+	for (int i = 0; test_cases[i]; i++)
+	{
+		printf("Test case %d: Count = %zu\n", i + 1,
+			ft_countwords(test_cases[i], ' '));
+	}
+	return (0);
+}
+*/

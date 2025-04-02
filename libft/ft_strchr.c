@@ -3,39 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/01 18:57:25 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/03/19 18:01:45 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/26 20:01:26 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/03/05 10:10:15 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
-#include <stdio.h>
+
+#include "libft.h"
 
 char	*ft_strchr(const char *s, int c)
 {
-	int		i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] != (char)c)
-		{
-			i++;
-		}
-		else
-		{
-			return ((char *)(s + i));
-		}
-	}
-	if (c == '\0')
-		return ((char *)(s + i));
-	return (NULL);
+	while (*s != (char)c)
+		if (!*s++)
+			return (0);
+	return ((char *)s);
 }
 
-/*int main ()
-{
-	char s[] = "hello";
-	int c = '\0';
-	printf("%s", ft_strchr(s, c));
-}*/
+//(15)- Function take 'const char *s' that is our string,
+//		and 'int c' that is our character we look for.
+//(17-19)- If out character has not been found return NULL.
+//(20)- If it has been found return location of this character.
+
+/*
+#include <stdio.h>
+
+int	main(void) {
+	const char *str = "Hello, world!";
+	char c = 'w';
+
+	char *result = ft_strchr(str, c);
+
+	if (result) {
+		printf("'%c' found at %p (offset %ld characters)\n", c, result, result
+			- str);
+	} else {
+		printf("'%c' not found in the string\n", c);
+	}
+
+	return (0);
+}
+*/

@@ -3,103 +3,115 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/10 14:05:48 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/03/10 14:09:19 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/29 08:32:03 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/03/07 13:28:17 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
+
 #include "libft.h"
-#include <stdlib.h>
 
-static size_t	ft_len(int n)
+static int	int_len(long nbr)
 {
-	size_t	len;
+	int	count;
 
-	len = 0;
-	if (n == 0)
-		return (1);
-	while (n != 0)
+	count = 0;
+	if (nbr <= 0)
 	{
-		n /= 10;
-		len++;
+		nbr = -nbr;
+		count++;
 	}
-	return (len);
-}
-
-static int	ft_abs(int n)
-{
-	if (n < 0)
-		return (-n);
-	else
-		return (n);
-}
-
-static int	ft_sign(int n)
-{
-	int	sign;
-
-	sign = 1;
-	if (n < 0)
-		sign = -1;
-	return (sign);
-}
-
-char	*ft_build(size_t len, char *result, int n)
-{
-	while (n != 0)
+	while (nbr != 0)
 	{
-		len--;
-		result[len] = ft_abs(n % 10) + '0';
-		n /= 10;
+		nbr /= 10;
+		count++;
 	}
-	return (result);
+	return (count);
+}
+
+static char	*ft_pre_conv(int len)
+{
+	char	*tmp;
+
+	tmp = malloc((len + 1) * sizeof(char));
+	if (!tmp)
+		return (NULL);
+	tmp[len] = '\0';
+	return (tmp);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*result;
-	int		sign;
-	size_t	len;
+	long	nbr;
+	int		len;
+	char	*res;
+	int		i;
 
-	len = ft_len(n);
-	sign = ft_sign(n);
-	if (n < 0)
-		len++;
-	result = malloc((len + 1) * sizeof(char));
-	if (result == NULL)
+	nbr = n;
+	len = int_len(nbr);
+	res = ft_pre_conv(len);
+	if (!res)
 		return (NULL);
-	result[len] = '\0';
-	if (n == 0)
-		result[0] = '0';
-	else
+	if (nbr == 0)
+		res[0] = '0';
+	if (nbr < 0)
 	{
-		if (sign == -1)
-			result[0] = '-';
-		ft_build(len, result, n);
+		res[0] = '-';
+		nbr = -nbr;
 	}
-	return (result);
+	i = len - 1;
+	while (nbr > 0)
+	{
+		res[i--] = (nbr % 10) + '0';
+		nbr /= 10;
+	}
+	return (res);
 }
 
-/*int main(void)
+/*
+#include <stdio.h>
+
+int	main(void)
 {
-    int num1 = 12345;
-    int num2 = -9876;
-    int num3 = 0;
+	char	*str;
 
-    char *str1 = ft_itoa(num1);
-    char *str2 = ft_itoa(num2);
-    char *str3 = ft_itoa(num3);
+	str = ft_itoa(52);
+	printf("%s\n", str);
+	free(str);
+	return (0);
+}
+*/
 
-    printf("Integer: %d, String: %s\n", num1, str1);
-    printf("Integer: %d, String: %s\n", num2, str2);
-    printf("Integer: %d, String: %s\n", num3, str3);
+// PART 1 - 	int_len
+//(17) Create 'int count' to keep track of an number of digits.
+//(19) Set 'count' value to 0 as starting value.
+//(20-24) If 'nbr' is negative change it to positie
+//			and inceremnt 'count' by one.
+//(25-29) While 'nbr' is not 0 devide it by 10,
+//			reduce lenght by one digit and increment 'count'.
+//(30) Return total count of digits in the oryginal number.
 
-    // Don't forget to free the allocated memory
-    free(str1);
-    free(str2);
-    free(str3);
+// PART 2 - ft_pre_conv
+//(35)	Declar '*tmp' to store the adress of allocated memory.
+//(37)	Allocate memory for the string and add 1 byte of memory for NULL.
+//(38-39) Check if the allocation was succesfull if not return NULL.
+//(40) Set last byte of allocated memory to NULL to protely terminate is.
+//(41) Return pointer to allocated nulterminated memory.
 
-    return 0;
-}*/
+// PART 3 - ft_itoa
+//(46) Use a 'long' in case where 'n' is minimal int.
+//(47) 'len' store the length of the resulting string.
+//(48) Pointer to the resulting string.
+//(49) Iterator for positioning in the string.
+//(51) Change 'int' to 'long' to handle negative values.
+//(52) Calculate the 'len' of the number as a string, including sign.
+//(53) Allocate memory for the string including NULL.
+//(54-55) Check if memory allocation was succesful.
+//(56-57) Special case for zero, directly set the first char to '0'.
+//(58-62) Handle negative numbers. Set the first character to the '-'.
+//			Make number '+' for easier processing.
+//(63) Start filling the string from the end.
+//(64-68) Convert each digit of 'nbr' to a 'char'
+//			and fill the string from the end.
+//(69) Return the resulting string.

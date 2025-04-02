@@ -3,68 +3,31 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: dtoszek <dtoszek@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/03/19 18:44:24 by mkaszuba          #+#    #+#              #
-#    Updated: 2024/03/19 18:45:11 by mkaszuba         ###   ########.fr        #
+#    Created: 2024/02/29 20:20:47 by mjakowic          #+#    #+#              #
+#    Updated: 2024/07/18 16:23:33 by dtoszek          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-AR = ar rcs
+AR = ar r
+HEAD = libft.h
 RM = rm -f
 
-FILES = ft_atoi \
-		ft_bzero \
-		ft_calloc \
-		ft_isalnum \
-		ft_isalpha \
-		ft_isascii \
-		ft_isdigit \
-		ft_isprint \
-		ft_itoa \
-		ft_memchr \
-		ft_memcmp \
-		ft_memcpy \
-		ft_memmove \
-		ft_memset \
-		ft_putchar_fd \
-		ft_putendl_fd \
-		ft_putnbr_fd \
-		ft_putstr_fd \
-		ft_split \
-		ft_strchr \
-		ft_strdup \
-		ft_striteri \
-		ft_strjoin \
-		ft_strlcat \
-		ft_strlcpy \
-		ft_strlen \
-		ft_strmapi \
-		ft_strncmp \
-		ft_strnstr \
-		ft_strrchr \
-		ft_strtrim \
-		ft_substr \
-		ft_tolower \
-		ft_toupper
+FILES = ft_strjoin_with.c ft_free_char.c ft_isspace.c ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_itoa.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c ft_putchar_fd.c ft_putstr_fd.c ft_putnbr_fd.c ft_putendl_fd.c ft_split.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c get_next_line.c ft_free_split.c ft_atoi_base.c ft_wordcount.c ft_strnew.c ft_strcpy.c ft_strdel.c ft_strsplit.c ft_strsubchr.c ft_memalloc.c ft_strchrs.c get_next_line_utils.c
 
-SRCS_DIR = ./
-SRCS = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(FILES)))
+OBJS = $(FILES:.c=.o)
 
-OBJS_DIR = ./
-OBJS = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(FILES)))
-
-.c.o:
-	$(CC) $(CFLAGS) -c -o $@ $<
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(AR) $(NAME) $(OBJS)
 
-all: $(NAME)
+%.o: %.c
+	$(CC) $(CFLAGS) -include $(HEAD) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS)
@@ -73,3 +36,5 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re

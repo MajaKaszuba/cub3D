@@ -3,25 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 16:12:21 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/03/08 16:15:41 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/29 14:09:14 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/03/04 20:11:01 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
-#include <string.h>
+
 #include "libft.h"
+#include <unistd.h>
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	write(fd, s, ft_strlen((const char *)s));
-	write(fd, "\n", 1);
+	if (s != NULL)
+	{
+		ft_putstr_fd(s, fd);
+		ft_putchar_fd('\n', fd);
+	}
 }
 
-/*int	main()
+/*
+int	main(void)
 {
-	char s[] = "Hello!";
-	int fd = 1;
-	ft_putendl_fd(s, fd);
+	// Test writing a string followed by a newline to stdout
+	ft_putendl_fd("Hello, World!", 1);
+
+	// Test writing a string followed by a newline to stderr
+	ft_putendl_fd("This is an error message.", 2);
+
+	return (0);
 }*/

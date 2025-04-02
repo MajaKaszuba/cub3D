@@ -3,57 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/01 17:58:19 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/03/01 18:14:55 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/26 19:06:44 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/03/05 11:50:11 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
-#include <stdio.h>
+
 #include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+size_t	ft_strlcat(char *dst, const char *src, size_t n)
 {
-	size_t	dst_len;
-	size_t	src_len;
-	size_t	total_len;
 	size_t	i;
+	size_t	j;
 
-	i = 0;
-	dst_len = ft_strlen(dst);
-	src_len = ft_strlen(src);
-	total_len = dst_len + src_len;
-	if (size <= dst_len)
-		return (src_len + size);
-	if (size > 0)
+	j = 0;
+	if (n <= ft_strlen(dst))
+		return (n + ft_strlen(src));
+	i = ft_strlen(dst);
+	while (src[j] != '\0' && i + 1 < n)
 	{
-		while ((i < size - dst_len - 1) && src[i] != '\0')
-		{
-			dst[dst_len + i] = src[i];
-			i++;
-		}
+		dst[i] = src[j];
+		i++;
+		j++;
 	}
-	dst[dst_len + i] = '\0';
-	return (total_len);
+	dst[i] = '\0';
+	return (ft_strlen(dst) + ft_strlen(&src[j]));
 }
 
-/*int	main(void)
-{
-	char dst[20] = "Hello";
-	const char *src = " world!";
-	size_t size = sizeof(dst);
+//(17)- Index for destination string.
+//(18)- Index for source string.
+//(20)- Start from the beginning of 'src'.
+//(22)- If 'n' is less than or equal to the length of 'dst',
+//      return 'n' plus the length of 'src'.
+//(23)- Get the length of 'dst' to start
+//      adding 'src' from the end.
+//(24)- Loop until the end of 'src' or until there's
+//      no more space in 'dst'.
+//(26)- Add 'src' to 'dst'.
+//(30)- Null-terminate 'dst'
+//(31)- Return the total length of 'dst' after concatenation
+//      plus the remaining length of 'src'
 
-	printf("Before ft_strlcat:\n");
-	printf("dst: %s\n", dst);
-	printf("src: %s\n", src);
+/*
+#include <stdio.h>
 
-	size_t result = ft_strlcat(dst, src, size);
+int	main(void) {
+	char dest[22] = "Hello, ";
+	const char *src = "world!";
 
-	printf("\nAfter ft_strlcat:\n");
-	printf("dst: %s\n", dst);
-	printf("src: %s\n", src);
-	printf("Result: %zu\n", result);
+	size_t size = ft_strlcat(dest, src, sizeof(dest) - sizeof("Hello, "));
+
+	printf("Original: %s\n", dest);
+	printf("After ft_strlcat: %s (%zu)\n", dest, size);
 
 	return (0);
 }*/

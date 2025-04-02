@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/01 18:31:43 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/03/01 18:37:58 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/26 19:51:06 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/06/18 13:17:05 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
-#include <stdio.h>
+
+#include "libft.h"
 
 int	ft_toupper(int c)
 {
-	if (c > 96 && c < 123)
+	if (c >= 'a' && c <= 'z')
 	{
-		c -= 32;
-		return (c);
+		return (c - 32);
 	}
 	else
 	{
@@ -25,9 +24,19 @@ int	ft_toupper(int c)
 	}
 }
 
-/*int main ()
-{
-	int c = 121;
-	c = ft_toupper(c);
-	printf("%c", c);
-}*/
+/*
+#include <stdio.h>
+
+int	ft_toupper(int c);
+
+int	main(void) {
+  char character = 'b'; // Example lowercase character
+
+  int uppercase_char = ft_toupper(character);
+
+  printf("Original character: %c\n", character);
+  printf("Converted character: %c\n", uppercase_char);
+
+  return (0);
+}
+*/

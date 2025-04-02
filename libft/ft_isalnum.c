@@ -3,23 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 17:28:36 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/02/28 17:41:14 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/26 15:30:52 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/03/04 17:33:49 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_isalnum(int c)
 {
-	if ((ft_isalpha(c) == 1) || (ft_isdigit(c) == 1))
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57))
 		return (1);
-	return (0);
+	else
+		return (0);
 }
 
-/*int main ()
+/*
+#include <stdio.h>
+
+int	main(void)
 {
-	int c = 'b';
-	printf("%d", ft_isalnum(c));
+	char c1 = 'a';
+	char c2 = 'Z';
+	char c3 = '5';
+	char c4 = '$';
+
+	printf("ft_isalnum('%c') = %d\n", c1, ft_isalnum(c1));
+	printf("ft_isalnum('%c') = %d\n", c2, ft_isalnum(c2));
+	printf("ft_isalnum('%c') = %d\n", c3, ft_isalnum(c3));
+	printf("ft_isalnum('%c') = %d\n", c4, ft_isalnum(c4));
+
+	return (0);
 }*/

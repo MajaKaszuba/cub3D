@@ -3,34 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjakowic <mjakowic@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 18:00:30 by mkaszuba          #+#    #+#             */
-/*   Updated: 2024/02/28 18:12:55 by mkaszuba         ###   ########.fr       */
+/*   Created: 2024/02/26 16:02:05 by mjakowic          #+#    #+#             */
+/*   Updated: 2024/03/04 19:26:54 by mjakowic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stddef.h>
-#include <stdio.h>
 
-void	*ft_memset(void *s, int c, size_t n)
+#include "libft.h"
+
+void	*ft_memset(void *s, int c, size_t len)
 {
-	unsigned char	*p;
+	char	*p;
 
-	p = s;
-	while (n > 0)
+	p = (char *)s;
+	while (len > 0)
 	{
-		*p = c;
-		p++;
-		n--;
+		p[len - 1] = c;
+		len--;
 	}
 	return (s);
 }
 
-/*int main()
+// (15) Begin setting memory area.
+// (17) Use p to go through the memory.
+// (19) Make s easy to work with by treating it as a series of bytes.
+// (20) Start filling the memory with the byte c.
+// (22-23) Work from the end, replacing each byte with c, until all are set.
+// (25) Return the memory area after filling it.
+
+/*
+#include <stdio.h>
+
+int	main(void)
 {
-	char	s[] = "abcd";
-	int	c = 80;
-	size_t	n = 2;
-	ft_memset(s, c, n);
-	printf ("%s", s); 
-}*/
+	char	str[50] = "Hello, world! This is a test string.";
+	int		c;
+	size_t	len;
+
+	c = 'X';
+	len = 10;
+	printf("Before ft_memset: %s\n", str);
+	ft_memset(str, c, len);
+	printf("After ft_memset: %s\n", str);
+	return (0);
+}
+*/

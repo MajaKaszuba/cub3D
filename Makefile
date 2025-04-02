@@ -1,48 +1,35 @@
-NAME = cub3D
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes
-MLXFLAGS = -Lminilibx-linux -lmlx -L/usr/lib -lXext -lX11 -lm
-LIBFT_PATH = ./libft
-MLX_PATH = minilibx-linux
-LIBFT = $(LIBFT_PATH)/libft.a
-MLX = $(MLX_PATH)/libmlx.a
+PROG	= cub3d
 
-SRC = src/cub3d.c src/parse_map.c
-OBJ = $(SRC:.c=.o)
-INCLUDE_DIR = includes
-RM = rm -f
+SRCS 	= src/main.c src/check_args.c src/fill_map_vals.c src/check_map_size.c src/map_saving.c src/colors_convert.c src/mapping_check.c src/load_textures.c
+OBJS 	= ${SRCS:.c=.o}
+HEADER	= -Iincludes
+MLX 	= -Lminilibx-linux -lmlx_Linux -Iminilibx-linux -lXext -lX11 -lm
 
-# Domyślna kompilacja
-all: $(NAME)
+CC 		= gcc
+CFLAGS 	= -Wall -Wextra -g
 
-# Kompilowanie projektu
-$(NAME): $(OBJ) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(MLX) $(MLXFLAGS)
+.c.o:
+		@${CC} ${CFLAGS} ${HEADER} -c $< -o $(<:.c=.o)
 
-# Kompilacja .c do .o
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+all: ${PROG}
 
-# Kompilacja libft
-$(LIBFT):
-	make -C $(LIBFT_PATH)
+${PROG}: ${OBJS}
+		@echo "\033[33m----Compiling lib----"
+		@make -s re -C ./libft
+		@echo "LIBFT MADE"
+		@${CC} ${OBJS} -Llibft -lft ${MLX} -o ${PROG}
+		@echo "\033[32mcub3d compiled!ᕦ(\033[31m♥\033[32m_\033[31m♥\033[32m)ᕤ\n"
 
-# Kompilacja MLX
-$(MLX):
-	git clone https://github.com/42Paris/minilibx-linux.git $(MLX_PATH) || true
-	make -C $(MLX_PATH)
-
-# Usuwanie plików .o
 clean:
-	$(RM) $(OBJ)
-	make -C $(LIBFT_PATH) clean
-	make -C $(MLX_PATH) clean
+		@make clean -s -C ./libft
+		@rm -f ${OBJS}
 
-# Usuwanie wszystkiego
 fclean: clean
-	$(RM) $(NAME)
+		@make fclean -s -C ./libft
+		@rm -f ${PROG} ${OBJS}
+		@rm -rf libft/*.a libft/*.o libft/*.so
+		@echo "\n\033[31mDeleting EVERYTHING! ⌐(ಠ۾ಠ)¬\n"
 
-# Ponowna kompilacja
 re: fclean all
 
 .PHONY: all clean fclean re
