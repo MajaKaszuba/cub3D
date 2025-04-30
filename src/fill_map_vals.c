@@ -1,5 +1,6 @@
 #include "../includes/cub3d.h"
 
+
 char *ft_strcpy(char *dst, const char *src) {
     int i = 0;
 	int j = 0;
@@ -16,8 +17,8 @@ char *ft_strcpy(char *dst, const char *src) {
 
 bool check_for_all(t_game *game)
 {
-	if (game->textures.NO.img != NULL && game->textures.WE.img != NULL && game->textures.SO.img != NULL &&
-		game->textures.EA.img != NULL && game->textures.F != NULL && game->textures.C != NULL)
+	if (game->textures.no_path != NULL && game->textures.we_path != NULL && game->textures.so_path != NULL &&
+		game->textures.ea_path != NULL && game->textures.F != NULL && game->textures.C != NULL)
 		return (true);
 	return (false);
 }
@@ -64,35 +65,30 @@ void find_id(char *str, t_game *game)
     printf("Przypisano: %s -> '%s'\n", str, value); // 🟢 DEBUG
 }
 
-bool is_map_part(t_game *game, char *str)
-{
-    printf("🔍 Sprawdzam, czy to mapa: [%s]\n", str);
+bool is_map_part(t_game *game, char *str){
 	int i = 0;
 	if(str[0] == '\n')
 			return false;
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == ' ' || str[i] == '1')
+	while (str[i]){
+		if (str[i] == ' ' || str[i] == '1'){
 			i++;
+		}
 		else
 			break ;
 	}
-	if (((int)ft_strlen(str) - 1 == i) && check_for_all(game))
-	{
+	if ((ft_strlen(str) - 1 == i) && check_for_all(game)){
 		printf("returned true\n");
 		return true;
 	}
 	return false;
 }
 
-int ft_isspace(char c)
-{
+int ft_isspace(char c) {
     return (c == ' '  || c == '\t' || c == '\n' || 
             c == '\v' || c == '\f' || c == '\r');
 }
-
-bool is_not_map_format(const char *str){
+bool is_not_map_format(char *str){
 	size_t len;
 	int i;
 
@@ -101,11 +97,12 @@ bool is_not_map_format(const char *str){
 	while (str[i] == ' ' || str[i] == '0' || str[i] == '1' || str[i] == 'N' 
 			|| str[i] == 'S' || str[i] == 'W' || str[i] == 'E' || str[i] == '\n')
 			i++;
-	if ((size_t)i != len){
+	if (i != len){
 		return (1);
 	}
 	return(0);
 }
+
 
 int is_only_whitespace(const char *str, bool map_status) {
 
@@ -113,7 +110,6 @@ int is_only_whitespace(const char *str, bool map_status) {
 		printf("Wrong Format inside map part\n");
 		printf("End Program");
 	}
-    printf("🔍 Sprawdzam, czy biała linia: [%s]\n", str);
     while (*str) {
         if (!ft_isspace(*str)) {
             return 0; 
@@ -121,10 +117,11 @@ int is_only_whitespace(const char *str, bool map_status) {
         str++;
     }
 	if (map_status == true){
-        printf("❌ Linia uznana za pustą: [%s]\n", str);
+		printf("white line in map");
 	}
     return 1;
 }
+
 
 void fill_map_vals(t_game *game, char *str)
 {

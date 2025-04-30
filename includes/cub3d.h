@@ -1,18 +1,18 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdio.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <sys/types.h> 
-# include <sys/stat.h> 
-# include <stdarg.h> 
-# include <stdlib.h>
-# include <stdbool.h> 
-# include <errno.h>
-# include <math.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <stdarg.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include <errno.h>
+# include <stdio.h>
+# include <math.h>
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
@@ -33,63 +33,55 @@ typedef struct s_img
     int     height; // i wysokości tekstury
 }   t_img;
 
-typedef struct
-{
-    t_img   NO;
+
+typedef struct{
+	t_img   NO;
     t_img   SO;
     t_img   WE;
     t_img   EA;
-    char    *no_path;
-    char    *so_path;
-    char    *we_path;
-    char    *ea_path;
-    char    *F;
-    char    *C;
-    int     *floor_color;
-    int     *ceeling_color;
-} t_texture;
+	char *no_path;
+	char *so_path;
+	char *we_path;
+	char *ea_path;
+	char *F;
+	char *C;
+	int *floor_color;
+	int *ceeling_color;
 
-typedef struct
-{
-    char    **valid_map;
-    int     lines_tilmap;
-    int     highest_x;
-    int     highest_y;
-    int     current_row;
-} t_map;
+}	t_texture;
 
-typedef struct
-{
-    int     is_player;
-    float   px;
-    float   py;
-    float   pa;
-} t_player;
+typedef struct {
+	char** valid_map;
+	int lines_tilmap;
+	int highest_x;
+	int highest_y;
+	int current_row;
+}	t_map;
 
-typedef struct
-{
-    void        *mlx;
-    void        *win;
-    t_img       img;
-    t_texture   textures;
-    t_map       map;
-    t_player    player;
+typedef struct {
+	int is_player;
+	float	px;
+	float	py;
+	float	pa;
+}	t_player;
+
+typedef struct{
+	void	*mlx;
+	void	*win;
+	float	wall_hit_x;
+	t_img	img;
+	t_texture textures;
+	t_map map;
+	t_player player;
 } t_game;
 
-int     check_args(char *map_name);
-void    fill_map_vals(t_game *game, char *str);
-void    check_x_and_y(t_game *game, char *str);
-void    alloc_map(t_game *game, char *str);
-void    color_convert(t_game *game);
-void    map_check(t_game *game);
 
-//mlx
-void    start_game(t_game *game);
-void    load_textures(t_game *game);
-void    put_pixel(t_game *game, int x, int y, int color);
-void    draw_vertical_line(t_game *game, int x, int height, t_img *texture, float tex_pos);void    cast_rays(t_game *game);
-int     update(t_game *game);
-int     key_press(int keycode, t_game *game);
-unsigned int get_texture_color(t_img *texture, int x, int y);
+int 	check_args(char *map_name);
+void 	fill_map_vals(t_game *game, char *str);
+void 	check_x_and_y(t_game *game, char *str);
+void  	alloc_map(t_game *game, char *str);
+void 	color_convert(t_game *game);
+void 	map_check(t_game *game);
+bool 	is_player_value(char c);
 
 #endif

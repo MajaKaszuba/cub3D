@@ -1,6 +1,6 @@
 PROG	= cub3d
 
-SRCS 	= src/main.c src/check_args.c src/fill_map_vals.c src/check_map_size.c src/map_saving.c src/colors_convert.c src/mapping_check.c src/load_textures.c
+SRCS 	= src/main.c src/check_args.c src/fill_map_vals.c src/check_map_size.c src/map_saving.c src/colors_convert.c src/mapping_check.c
 OBJS 	= ${SRCS:.c=.o}
 HEADER	= -Iincludes
 MLX 	= -Lminilibx-linux -lmlx_Linux -Iminilibx-linux -lXext -lX11 -lm

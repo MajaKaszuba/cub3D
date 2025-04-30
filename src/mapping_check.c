@@ -99,8 +99,7 @@ bool player_in_map(t_game *game, int pos_x, int pos_y){
 	return (1);
 }
 
-void zero_check(t_game *game)
-{
+void zero_check(t_game *game){
 	int i;
 	int j;
 
@@ -108,87 +107,68 @@ void zero_check(t_game *game)
 	while (i < game->map.highest_y - 1)
 	{
 		j = 1;
-		while (j < game->map.highest_x - 1)
-		{
+		while (j < game->map.highest_x - 1){
 			if (game->map.valid_map[i][j] == '0')
 				zero_flood_check(game, j, i);
-			if (!is_player_value(game->map.valid_map[i][j]))
-			{
-				player_in_map(game, j, i);
+			if (!is_player_value(game->map.valid_map[i][j])){
+				player_in_map(game,j, i);
 				game->player.is_player++;
+				game->player.px = (float)j;
+				game->player.py = (float)i;
+				printf("%i | %i\n", (int)game->player.px, (int)game->player.py);
 			}
 			if (game->player.is_player > 1)
-				printf("Error: More than one player in map!\n");
+				printf("amount of players is more than 1");
 			j++;
 		}
 		i++;
 	}
 }
 
-bool check_boundaries_x(t_game *game)
-{
+void check_boundaries_x(t_game *game){
 	int i;
-	bool valid = true;
 
 	i = 0;
-	while (i < game->map.highest_x)
+	while (i< game->map.highest_x)
 	{
 		if (game->map.valid_map[0][i] == '0')
-		{
-			printf("Error: Open boundary at top row, column %d\n", i);
-			valid = false;
-		}
+			printf("error");
 		else if (game->map.valid_map[0][i] == 'X')
 			x_check(game, i, 0);
 		i++;
 	}
-
 	i = 0;
-	while (i < game->map.highest_x)
+	while (i< game->map.highest_x)
 	{
 		if (game->map.valid_map[game->map.highest_y - 1][i] == '0')
-		{
-			printf("Error: Open boundary at bottom row, column %d\n", i);
-			valid = false;
-		}
-		else if (game->map.valid_map[game->map.highest_y - 1][i] == 'X')
-			x_check(game, i, game->map.highest_y - 1);
+			printf("error");
+		else if (game->map.valid_map[game->map.highest_y -1][i] == 'X')
+			x_check(game, i ,game->map.highest_y - 1);
 		i++;
 	}
-	return (valid);
 }	
 
-bool check_boundaries_y(t_game *game)
-{
+void check_boundaries_y(t_game *game){
 	int i;
-	bool valid = true;
 
 	i = 0;
 	while (i < game->map.highest_y)
 	{
 		if (game->map.valid_map[i][0] == '0')
-		{
-			printf("Error: Open boundary at left column, row %d\n", i);
-			valid = false;
-		}
+			printf("error");
 		else if (game->map.valid_map[i][0] == 'X')
 			x_check(game, 0, i);
 		i++;
 	}
-
 	i = 0;
 	while (i < game->map.highest_y)
 	{
 		if (game->map.valid_map[i][game->map.highest_x - 1] == '0')
-		{
-			printf("Error: Open boundary at right column, row %d\n", i);
-			valid = false;
-		}
+			printf("error %i | %i\n", i, game->map.highest_x - 1);
 		else if (game->map.valid_map[i][game->map.highest_x - 1] == 'X')
 			x_check(game, game->map.highest_x - 1, i);
 		i++;
 	}
-	return (valid);
 }
 
 void map_check(t_game *game){

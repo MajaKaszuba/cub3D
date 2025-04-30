@@ -6,7 +6,6 @@ int *convert(char *str)
 	int i = 0;
 	int k = 0;
 	int size = ft_strlen(str);
-	int	*color;
 	while (i < 3)
 	{
 		int j = 0;
@@ -29,17 +28,13 @@ int *convert(char *str)
 		i++;
 	}
 	printf("%s\n", arr[1]);
-	color = malloc(3 * sizeof(int));
-	if (!color)
-		return (NULL);
-	*color = (ft_atoi(arr[0]) << 16) | (ft_atoi(arr[1]) << 8) | ft_atoi(arr[2]);
-	return (color);
-	}
+	return((ft_atoi(arr[0]) << 16) | (ft_atoi(arr[1]) << 8) | ft_atoi(arr[2]));
+}
 
 void color_convert(t_game *game)
 {
 	game->textures.floor_color = convert(game->textures.F);
 	game->textures.ceeling_color = convert(game->textures.C);
-	printf("Color in hex: 0x%X\n", *game->textures.floor_color);
-	printf("Color in hex: 0x%X\n", *game->textures.ceeling_color);	
+	printf("Color in hex: 0x%X\n", game->textures.floor_color);
+	printf("Color in hex: 0x%X\n", game->textures.ceeling_color);
 }
