@@ -12,7 +12,7 @@
 
 NAME = libft.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fPIE  # Add -fPIE here
 AR = ar r
 HEAD = libft.h
 RM = rm -f
