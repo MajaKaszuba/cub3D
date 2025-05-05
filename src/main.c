@@ -6,7 +6,7 @@
 /*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:00:51 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 16:32:11 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:45:53 by mkaszuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,29 @@ void	start_texture(t_game *game)
 			&game->img.line_len, &game->img.endian);
 	load_textures(game);
 	game->player.pa = 0;
+}
+
+void	draw_vertical_line(t_game *game, int x, int height, int side)
+{
+	t_draw	draw;
+
+	draw.x = x;
+	draw.wall_height = height;
+	draw.start = (WIN_HEIGHT / 2) - (height / 2);
+	draw.end = (WIN_HEIGHT / 2) + (height / 2);
+	if (draw.start < 0)
+		draw.start = 0;
+	if (draw.end >= WIN_HEIGHT)
+		draw.end = WIN_HEIGHT - 1;
+	if (side == 0)
+		draw.texture = &game->textures.NO;
+	else if (side == 1)
+		draw.texture = &game->textures.SO;
+	else if (side == 2)
+		draw.texture = &game->textures.EA;
+	else
+		draw.texture = &game->textures.WE;
+	draw_column(game, &draw);
 }
 
 int	update(t_game *game)

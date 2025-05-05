@@ -6,7 +6,7 @@
 #    By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/05 15:50:10 by mkaszuba          #+#    #+#              #
-#    Updated: 2025/05/05 16:35:15 by mkaszuba         ###   ########.fr        #
+#    Updated: 2025/05/05 18:35:37 by mkaszuba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRCS 	=	src/main.c \
 			src/map_flood_check.c \
 			src/map_saving.c \
 			src/mapping_check.c \
-			src/player_control.c
+			src/player_control.c \
+			src/ray_utils.c
 OBJS 	= ${SRCS:.c=.o}
 HEADER	= -Iincludes
 MLX 	= -Lminilibx-linux -lmlx_Linux -Iminilibx-linux -lXext -lX11 -lm
