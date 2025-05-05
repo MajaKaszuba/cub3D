@@ -45,8 +45,8 @@ typedef struct{
 	char *ea_path;
 	char *F;
 	char *C;
-	int *floor_color;
-	int *ceeling_color;
+	int floor_color;
+	int ceeling_color;
 
 }	t_texture;
 

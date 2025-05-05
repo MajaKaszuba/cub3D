@@ -119,35 +119,32 @@ unsigned int get_texture_color(t_img *texture, int x, int y)
 void draw_vertical_line(t_game *game, int x, int height, int side) {
     int start = (WIN_HEIGHT / 2) - (height / 2);
     int end = (WIN_HEIGHT / 2) + (height / 2);
-    if (start < 0)
-        start = 0;
-    if (end >= WIN_HEIGHT)
-        end = WIN_HEIGHT - 1;
+    if (start < 0) start = 0;
+    if (end >= WIN_HEIGHT) end = WIN_HEIGHT - 1;
 
     t_img *texture;
-    if (side == 0) texture = &game->textures.NO;
+    if (side == 0)      texture = &game->textures.NO;
     else if (side == 1) texture = &game->textures.SO;
     else if (side == 2) texture = &game->textures.EA;
-    else texture = &game->textures.WE; 
-        
+    else                texture = &game->textures.WE;
+
     float texture_step = (float)texture->height / height;
-    float texture_pos = (start - (WIN_HEIGHT / 2) + (height / 2)) * texture_step;
+    float texture_pos = (start - WIN_HEIGHT / 2 + height / 2) * texture_step;
 
     for (int y = 0; y < WIN_HEIGHT; y++) {
-        if (y < start)
-            put_pixel(game, x, y, 0x87CEEB); // Ceiling
-        else if (y >= start && y < end) {
-            int tex_y = (int)texture_pos & (texture->height - 1); // szybciej modulo jak height = potęga 2
-            int tex_x = game->wall_hit_x * texture->width;        // tu poprawka!!
+        if (y < start) {
+            put_pixel(game, x, y, game->textures.ceeling_color); // Ceiling
+        } else if (y >= start && y < end) {
+            int tex_y = (int)texture_pos & (texture->height - 1);
+            int tex_x = game->wall_hit_x * texture->width;
             if (tex_x < 0) tex_x = 0;
             if (tex_x >= texture->width) tex_x = texture->width - 1;
 
             unsigned int color = get_texture_color(texture, tex_x, tex_y);
             put_pixel(game, x, y, color);
-
             texture_pos += texture_step;
         } else {
-            put_pixel(game, x, y, 0x228B22); // Floor
+            put_pixel(game, x, y, game->textures.floor_color); // Floor
         }
     }
 }
@@ -156,43 +153,84 @@ void cast_rays(t_game *game)
 {
     float ray_angle = game->player.pa - (FOV / 2);
     float angle_step = FOV / NUM_RAYS;
-    for (int i = 0; i < NUM_RAYS; i++)
+
+    for (int x = 0; x < NUM_RAYS; x++)
     {
-        float ray_x = game->player.px;
-        float ray_y = game->player.py;
-        float dx = cos(ray_angle);
-        float dy = sin(ray_angle);
-        int hit = 0;
-        while (!hit)
-        {
-            ray_x += dx * 0.01;
-            ray_y += dy * 0.01;
-            if (game->map.valid_map[(int)ray_y][(int)ray_x] == '1')
-            {
-                hit = 1;
-                if (fabsf(ray_x - floorf(ray_x)) < fabsf(ray_y - floorf(ray_y)))
-                    game->wall_hit_x = ray_y - floorf(ray_y);
-                else
-                    game->wall_hit_x = ray_x - floorf(ray_x);
-            }            
-        }
-        float distance = sqrtf((ray_x - game->player.px) * (ray_x - game->player.px) + 
-                               (ray_y - game->player.py) * (ray_y - game->player.py)) * 
-                               cos(ray_angle - game->player.pa);
-        int line_height = (int)(WIN_HEIGHT / (distance + 0.0001));
-        int side = 0; // Domyślnie północ
-        if (dy < 0) {
-            side = 1;  // Południe
-        } else if (dx > 0) {
-            side = 2;  // Wschód
+        float ray_dir_x = cos(ray_angle);
+        float ray_dir_y = sin(ray_angle);
+
+        int map_x = (int)game->player.px;
+        int map_y = (int)game->player.py;
+
+        float delta_dist_x = fabsf(1 / ray_dir_x);
+        float delta_dist_y = fabsf(1 / ray_dir_y);
+
+        int step_x, step_y;
+        float side_dist_x, side_dist_y;
+
+        if (ray_dir_x < 0) {
+            step_x = -1;
+            side_dist_x = (game->player.px - map_x) * delta_dist_x;
         } else {
-            side = 3;  // Zachód
+            step_x = 1;
+            side_dist_x = (map_x + 1.0 - game->player.px) * delta_dist_x;
+        }
+        if (ray_dir_y < 0) {
+            step_y = -1;
+            side_dist_y = (game->player.py - map_y) * delta_dist_y;
+        } else {
+            step_y = 1;
+            side_dist_y = (map_y + 1.0 - game->player.py) * delta_dist_y;
         }
 
-        draw_vertical_line(game, i, line_height, side);
+        int hit = 0;
+        int side = -1; // 0 = vertical (E/W), 1 = horizontal (N/S)
+
+        while (!hit)
+        {
+            if (side_dist_x < side_dist_y) {
+                side_dist_x += delta_dist_x;
+                map_x += step_x;
+                side = 0;
+            } else {
+                side_dist_y += delta_dist_y;
+                map_y += step_y;
+                side = 1;
+            }
+
+            if (game->map.valid_map[map_y][map_x] == '1')
+                hit = 1;
+        }
+
+        float perp_wall_dist;
+        if (side == 0)
+            perp_wall_dist = (map_x - game->player.px + (1 - step_x) / 2) / ray_dir_x;
+        else
+            perp_wall_dist = (map_y - game->player.py + (1 - step_y) / 2) / ray_dir_y;
+
+        int line_height = (int)(WIN_HEIGHT / (perp_wall_dist + 0.0001));
+
+        // Get exact wall hit location (for texture x)
+        float wall_x;
+        if (side == 0)
+            wall_x = game->player.py + perp_wall_dist * ray_dir_y;
+        else
+            wall_x = game->player.px + perp_wall_dist * ray_dir_x;
+        wall_x -= floorf(wall_x);
+        game->wall_hit_x = wall_x;
+
+        // Determine texture based on side and ray direction
+        int texture_side;
+        if (side == 0)  // Vertical wall
+            texture_side = (ray_dir_x > 0) ? 2 : 3; // East or West
+        else            // Horizontal wall
+            texture_side = (ray_dir_y > 0) ? 1 : 0; // South or North
+
+        draw_vertical_line(game, x, line_height, texture_side);
         ray_angle += angle_step;
     }
 }
+
 
 int update(t_game *game)
 {
