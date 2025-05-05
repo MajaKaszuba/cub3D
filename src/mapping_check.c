@@ -6,7 +6,7 @@
 /*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:17:55 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 14:58:28 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:42:46 by mkaszuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,7 @@ bool	is_player_value(char c)
 bool	x_check(t_game *game, int x, int y)
 {
 	game->map.valid_map[y][x] = 'x';
-	if (x > 0)
-	{
-		if (game->map.valid_map[y][x -1] == 'X')
-			x_check(game, x - 1, y);
-		else if (game->map.valid_map[y][x - 1] == is_player_value(
-			game->map.valid_map[y][x - 1]))
-			printf("Player out of map\n");
-		else if (game->map.valid_map[y][x - 1] == '0')
-			printf("Fatal Error\n");
-	}
-	if (x < game->map.highest_x - 1)
-	{
-		if (game->map.valid_map[y][x + 1] == 'X')
-			x_check(game, x + 1, y);
-		else if (game->map.valid_map[y][x + 1] == 'P')
-			printf("Player out of map\n");
-		else if (game->map.valid_map[y][x + 1] == '0')
-			printf("Fatal Error\n");
-	}
+	x_check_dirs(game, x, y);
 	if (y > 0)
 	{
 		if (game->map.valid_map[y - 1][x] == 'X')
@@ -71,28 +53,6 @@ bool	x_check(t_game *game, int x, int y)
 	return (1);
 }
 
-bool	zero_flood_check(t_game *game, int j, int i)
-{
-	game->map.valid_map[i][j] = 'O';
-	if (game->map.valid_map[i][j -1] == '0')
-		zero_flood_check(game, j - 1, i);
-	else if (game->map.valid_map[i][j - 1] == 'X')
-		printf("Fatal Error\n");
-	if (game->map.valid_map[i][j + 1] == '0')
-		zero_flood_check(game, j + 1, i);
-	else if (game->map.valid_map[i][j + 1] == 'X')
-		printf("Fatal Error\n");
-	if (game->map.valid_map[i - 1][j] == '0')
-		zero_flood_check(game, j, i - 1);
-	else if (game->map.valid_map[i - 1][j] == 'X')
-		printf("Fatal Error\n");
-	if (game->map.valid_map[i + 1][j] == '0')
-		zero_flood_check(game, j, i + 1);
-	else if (game->map.valid_map[i + 1][j] == 'X')
-		printf("Fatal Error\n");
-	return (1);
-}
-
 bool	player_in_map(t_game *game, int pos_x, int pos_y)
 {
 	if (game->map.valid_map[pos_y][pos_x - 1] == 'X')
@@ -104,35 +64,6 @@ bool	player_in_map(t_game *game, int pos_x, int pos_y)
 	if (game->map.valid_map[pos_y + 1][pos_x] == 'X')
 		printf("Fatal Error\n");
 	return (1);
-}
-
-void	zero_check(t_game *game)
-{
-	int	i;
-	int	j;
-
-	i = 1;
-	while (i < game->map.highest_y - 1)
-	{
-		j = 1;
-		while (j < game->map.highest_x - 1)
-		{
-			if (game->map.valid_map[i][j] == '0')
-				zero_flood_check(game, j, i);
-			if (!is_player_value(game->map.valid_map[i][j]))
-			{
-				player_in_map(game, j, i);
-				game->player.is_player++;
-				game->player.px = (float)j;
-				game->player.py = (float)i;
-				printf("%i | %i\n", (int)game->player.px, (int)game->player.py);
-			}
-			if (game->player.is_player > 1)
-				printf("amount of players is more than 1");
-			j++;
-		}
-		i++;
-	}
 }
 
 void	check_boundaries_x(t_game *game)
@@ -179,21 +110,6 @@ void	check_boundaries_y(t_game *game)
 			printf("error %i | %i\n", i, game->map.highest_x - 1);
 		else if (game->map.valid_map[i][game->map.highest_x - 1] == 'X')
 			x_check(game, game->map.highest_x - 1, i);
-		i++;
-	}
-}
-
-void	map_check(t_game *game)
-{
-	int	i;
-
-	check_boundaries_x(game);
-	check_boundaries_y(game);
-	zero_check(game);
-	i = 0;
-	while (i < game->map.highest_y)
-	{
-		printf("%s\n", game->map.valid_map[i]);
 		i++;
 	}
 }
