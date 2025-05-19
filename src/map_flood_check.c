@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_flood_check.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: dtoszek <dtoszek@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:13:18 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 16:42:56 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/16 11:14:44 by dtoszek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ bool	zero_flood_check(t_game *game, int j, int i)
 	if (game->map.valid_map[i][j -1] == '0')
 		zero_flood_check(game, j - 1, i);
 	else if (game->map.valid_map[i][j - 1] == 'X')
-		printf("Fatal Error\n");
+		map_error_free(game, 1);
 	if (game->map.valid_map[i][j + 1] == '0')
 		zero_flood_check(game, j + 1, i);
 	else if (game->map.valid_map[i][j + 1] == 'X')
-		printf("Fatal Error\n");
+		map_error_free(game, 1);
 	if (game->map.valid_map[i - 1][j] == '0')
 		zero_flood_check(game, j, i - 1);
 	else if (game->map.valid_map[i - 1][j] == 'X')
-		printf("Fatal Error\n");
+		map_error_free(game, 1);
 	if (game->map.valid_map[i + 1][j] == '0')
 		zero_flood_check(game, j, i + 1);
 	else if (game->map.valid_map[i + 1][j] == 'X')
-		printf("Fatal Error\n");
+		map_error_free(game, 1);
 	return (1);
 }
 
@@ -53,10 +53,9 @@ void	zero_check(t_game *game)
 				game->player.is_player++;
 				game->player.px = (float)j;
 				game->player.py = (float)i;
-				printf("%i | %i\n", (int)game->player.px, (int)game->player.py);
 			}
 			if (game->player.is_player > 1)
-				printf("amount of players is more than 1");
+				map_error_free(game, 1);
 			j++;
 		}
 		i++;
@@ -86,18 +85,18 @@ bool	x_check_dirs(t_game *game, int x, int y)
 			x_check(game, x - 1, y);
 		else if (game->map.valid_map[y][x - 1] == is_player_value(
 			game->map.valid_map[y][x - 1]))
-			printf("Player out of map\n");
+			map_error_free(game, 1);
 		else if (game->map.valid_map[y][x - 1] == '0')
-			printf("Fatal Error\n");
+			map_error_free(game, 1);
 	}
 	if (x < game->map.highest_x - 1)
 	{
 		if (game->map.valid_map[y][x + 1] == 'X')
 			x_check(game, x + 1, y);
 		else if (game->map.valid_map[y][x + 1] == 'P')
-			printf("Player out of map\n");
+			map_error_free(game, 1);
 		else if (game->map.valid_map[y][x + 1] == '0')
-			printf("Fatal Error\n");
+			map_error_free(game, 1);
 	}
 	return (1);
 }

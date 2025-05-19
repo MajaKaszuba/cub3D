@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_control.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: dtoszek <dtoszek@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 16:29:10 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 16:32:15 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/16 10:55:55 by dtoszek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ void	move_player(t_game *game, float move_x, float move_y)
 int	key_press(int keycode, t_game *game)
 {
 	if (keycode == 65307)
-		exit(0);
+	{
+		free_strings(game, NULL, NULL, 3);
+		free_map(game);
+		free_textures(game);
+	}
 	if (keycode == 65361)
 		rotate_player(game, -1);
 	else if (keycode == 65363)

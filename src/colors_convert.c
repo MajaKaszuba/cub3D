@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors_convert.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: mkaszuba <mkaszuba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 13:17:01 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 14:59:34 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:41:08 by mkaszuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int	convert(char *str)
 
 void	color_convert(t_game *game)
 {
-	game->textures.floor_color = convert(game->textures.F);
-	game->textures.ceeling_color = convert(game->textures.C);
+	game->textures.floor_color = convert(game->textures.f);
+	game->textures.ceeling_color = convert(game->textures.c);
 }

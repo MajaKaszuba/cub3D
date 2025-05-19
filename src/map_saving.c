@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_saving.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: dtoszek <dtoszek@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:07:24 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 14:16:49 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/16 11:00:03 by dtoszek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strcpy_2(char *dst, const char *src, int size)
 	sizee = ft_strlen(src);
 	while (i < size)
 	{
-		if (src[i] == ' ' || i >= sizee || src[i] == '\n')
+		if (i >= sizee || src[i] == ' ' || src[i] == '\n' || src[i] == '\0')
 			dst[i] = 'X';
 		else
 			dst[i] = src[i];

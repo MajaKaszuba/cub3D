@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: mkaszuba <mkaszuba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:00:51 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 18:45:53 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:36:09 by mkaszuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ void	start_game(t_game *game)
 	game->textures.so_path = NULL;
 	game->textures.we_path = NULL;
 	game->textures.ea_path = NULL;
-	game->textures.F = NULL;
-	game->textures.C = NULL;
+	game->textures.f = NULL;
+	game->textures.c = NULL;
 	game->map.highest_x = 0;
 	game->map.highest_y = 0;
-	game->map.lines_tilmap = -1;
+	game->map.lines_tilmap = 0;
 	game->player.is_player = 0;
 }
 
@@ -50,13 +50,13 @@ void	draw_vertical_line(t_game *game, int x, int height, int side)
 	if (draw.end >= WIN_HEIGHT)
 		draw.end = WIN_HEIGHT - 1;
 	if (side == 0)
-		draw.texture = &game->textures.NO;
+		draw.texture = &game->textures.no;
 	else if (side == 1)
-		draw.texture = &game->textures.SO;
+		draw.texture = &game->textures.so;
 	else if (side == 2)
-		draw.texture = &game->textures.EA;
+		draw.texture = &game->textures.ea;
 	else
-		draw.texture = &game->textures.WE;
+		draw.texture = &game->textures.we;
 	draw_column(game, &draw);
 }
 

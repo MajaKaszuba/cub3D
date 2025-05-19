@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mapping_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: dtoszek <dtoszek@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:17:55 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 16:42:46 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/16 11:14:11 by dtoszek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-/*
-	directions
-	0 - starting point (sends everywhere)
-	1 - signal from left
-	2 - signal from right
-	3 - signal from top
-	4 - singal from bottom
-*/
 
 bool	is_player_value(char c)
 {
@@ -98,7 +89,7 @@ void	check_boundaries_y(t_game *game)
 	while (i < game->map.highest_y)
 	{
 		if (game->map.valid_map[i][0] == '0')
-			printf("error");
+			map_error_free(game, 1);
 		else if (game->map.valid_map[i][0] == 'X')
 			x_check(game, 0, i);
 		i++;
@@ -107,7 +98,7 @@ void	check_boundaries_y(t_game *game)
 	while (i < game->map.highest_y)
 	{
 		if (game->map.valid_map[i][game->map.highest_x - 1] == '0')
-			printf("error %i | %i\n", i, game->map.highest_x - 1);
+			map_error_free(game, 1);
 		else if (game->map.valid_map[i][game->map.highest_x - 1] == 'X')
 			x_check(game, game->map.highest_x - 1, i);
 		i++;

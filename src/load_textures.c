@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: mkaszuba <mkaszuba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 13:53:33 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 15:24:38 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:42:05 by mkaszuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	load_textures(t_game *game)
 		printf("Błąd: Brak ścieżki do tekstury!\n");
 		exit(1);
 	}
-	load_texture(game->mlx, &game->textures.NO, game->textures.no_path);
-	load_texture(game->mlx, &game->textures.SO, game->textures.so_path);
-	load_texture(game->mlx, &game->textures.WE, game->textures.we_path);
-	load_texture(game->mlx, &game->textures.EA, game->textures.ea_path);
+	load_texture(game->mlx, &game->textures.no, game->textures.no_path);
+	load_texture(game->mlx, &game->textures.so, game->textures.so_path);
+	load_texture(game->mlx, &game->textures.we, game->textures.we_path);
+	load_texture(game->mlx, &game->textures.ea, game->textures.ea_path);
 }
 
 unsigned int	get_texture_color(t_img *texture, int x, int y)

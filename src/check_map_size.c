@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_size.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: dtoszek <dtoszek@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 13:09:33 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 13:15:42 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/16 10:58:06 by dtoszek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	check_x_and_y(t_game *game, char *str, int i)
 	}
 	line = get_next_line(fd_sizes);
 	if (!line)
-		printf("Error No Map");
+		map_error_free(game, 2);
 	temp = ft_strlen(line) - 1;
 	while (1)
 	{

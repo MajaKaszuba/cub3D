@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: mkaszuba <mkaszuba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:53:17 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 18:49:04 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:26:57 by mkaszuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ typedef struct s_texture
 	char	*so_path;
 	char	*we_path;
 	char	*ea_path;
-	char	*F;
-	char	*C;
+	char	*f;
+	char	*c;
 	int		floor_color;
 	int		ceeling_color;
-	t_img	NO;
-	t_img	SO;
-	t_img	WE;
-	t_img	EA;
+	t_img	no;
+	t_img	so;
+	t_img	we;
+	t_img	ea;
 }	t_texture;
 
 typedef struct s_map
@@ -135,6 +135,7 @@ int				get_texture_side(t_ray_data *data);
 
 //check_args.c
 int				check_args(char *map_name);
+int				check_str(char *str, t_game *game, char *value);
 
 //check_map_size.c
 void			check_x_and_y(t_game *game, char *str, int i);
@@ -146,7 +147,10 @@ void			color_convert(t_game *game);
 //fill_map_vals_utils.c
 char			*ft_strcpy(char *dst, const char *src);
 int				ft_isspace(char c);
-int				is_only_whitespace(const char *str, bool map_status);
+int				is_only_whitespace(t_game *game, const char *str,
+					bool map_status);
+void			is_composed_with_coloric(t_game *game, char *str,
+					char *str2, int c);
 
 //fill_map_vals_logic.c
 bool			check_for_all(t_game *game);
@@ -189,4 +193,9 @@ void			rotate_player(t_game *game, float direction);
 void			move_player(t_game *game, float move_x, float move_y);
 int				key_press(int keycode, t_game *game);
 
+//memory_free.c
+void			free_strings(t_game *game, char *str, char *trimmed, int i);
+void			free_map(t_game *game);
+void			free_textures(t_game *game);
+void			map_error_free(t_game *game, int i);
 #endif

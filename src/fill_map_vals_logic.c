@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_map_vals_logic.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: mkaszuba <mkaszuba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 13:24:21 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 16:09:08 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:25:15 by mkaszuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ bool	check_for_all(t_game *game)
 {
 	if (game->textures.no_path != NULL && game->textures.we_path != NULL
 		&& game->textures.so_path != NULL
-		&& game->textures.ea_path != NULL && game->textures.F != NULL
-		&& game->textures.C != NULL)
+		&& game->textures.ea_path != NULL && game->textures.f != NULL
+		&& game->textures.c != NULL)
 		return (true);
 	return (false);
 }
@@ -28,26 +28,26 @@ void	find_id(char *str, t_game *game)
 
 	value = ft_strchr(str, ' ');
 	if (!value || !*(value + 1))
-		return ((void)printf(
-				"Error: Brak wartości dla identyfikatora -> %s\n", str));
+		return (free_strings(game, str, value, 0));
 	value = ft_strtrim(value + 1, " \n");
 	if (!value)
 		return ((void)printf("Error: ft_strtrim() zwrócił NULL\n"));
-	if (!ft_strncmp(str, "NO", 2))
+	if (!ft_strncmp(str, "NO", 2) && game->textures.no_path == NULL)
 		game->textures.no_path = value;
-	else if (!ft_strncmp(str, "SO", 2))
+	else if (!ft_strncmp(str, "SO", 2) && game->textures.so_path == NULL)
 		game->textures.so_path = value;
-	else if (!ft_strncmp(str, "WE", 2))
+	else if (!ft_strncmp(str, "WE", 2) && game->textures.we_path == NULL)
 		game->textures.we_path = value;
-	else if (!ft_strncmp(str, "EA", 2))
+	else if (!ft_strncmp(str, "EA", 2) && game->textures.ea_path == NULL)
 		game->textures.ea_path = value;
-	else if (!ft_strncmp(str, "C", 1))
-		game->textures.C = value;
-	else if (!ft_strncmp(str, "F", 1))
-		game->textures.F = value;
+	else if (!ft_strncmp(str, "C", 1) && game->textures.c == NULL)
+		is_composed_with_coloric(game, value, str, 0);
+	else if (!ft_strncmp(str, "F", 1) && game->textures.f == NULL)
+		is_composed_with_coloric(game, value, str, 1);
+	else if (check_str(str, game, value))
+		return ;
 	else
-		return ((void)(printf("Error: Nieznany identyfikator -> %s\n", str),
-			free(value)));
+		return (free_strings(game, str, value, 0));
 }
 
 bool	is_map_part(t_game *game, char *str)
@@ -100,10 +100,13 @@ void	fill_map_vals(t_game *game, char *str)
 	{
 		if (!map_started)
 			game->map.lines_tilmap++;
-		if (is_only_whitespace(line, map_started))
+		if (is_only_whitespace(game, line, map_started))
 			;
 		else if (!map_started && is_map_part(game, line))
+		{
 			map_started = true;
+			game->map.lines_tilmap--;
+		}
 		else if (!map_started)
 			find_id(line, game);
 		free(line);

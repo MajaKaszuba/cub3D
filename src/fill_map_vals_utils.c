@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   fill_map_vals_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkaszuba <mkaszuba@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: mkaszuba <mkaszuba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 13:24:21 by mkaszuba          #+#    #+#             */
-/*   Updated: 2025/05/05 16:08:43 by mkaszuba         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:41:49 by mkaszuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+char	ft_isnumber(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+void	is_composed_with_coloric(t_game *game, char *str, char *str2, int c)
+{
+	size_t	len;
+	int		i;
+
+	len = ft_strlen(str);
+	i = 0;
+	while ((size_t)i < len)
+	{
+		if (str[i] != ',' && !ft_isnumber(str[i]))
+			free_strings(game, str, str2, 0);
+		i++;
+	}
+	if (c == 0)
+		game->textures.c = str;
+	else
+		game->textures.f = str;
+}
 
 char	*ft_strcpy(char *dst, const char *src)
 {
@@ -37,12 +63,15 @@ int	ft_isspace(char c)
 		|| c == '\v' || c == '\f' || c == '\r');
 }
 
-int	is_only_whitespace(const char *str, bool map_status)
+int	is_only_whitespace(t_game *game, const char *str, bool map_status)
 {
+	const char	*cpy;
+
+	cpy = str;
 	if (is_not_map_format(str) && map_status == true)
 	{
-		printf("Wrong Format inside map part\n");
-		printf("End Program");
+		free((char *)str);
+		free_strings(game, NULL, NULL, 2);
 	}
 	while (*str)
 	{
@@ -50,7 +79,11 @@ int	is_only_whitespace(const char *str, bool map_status)
 			return (0);
 		str++;
 	}
+	str = cpy;
 	if (map_status == true)
-		printf("white line in map");
+	{
+		free((char *)str);
+		free_strings(game, NULL, NULL, 2);
+	}
 	return (1);
 }
