@@ -1,7 +1,7 @@
-NO textures/wooden_wall.xpm
-SO textures/floral_wall.xpm
+NO textures/wooden.xpm
+SO textures/floral.xpm
 WE textures/plaster.xpm
-EA textures/brick.xpm
+EA textures/brickk.xpm
 F 93,64,55
 C 253,248,243
 
