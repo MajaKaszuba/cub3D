@@ -1,9 +1,9 @@
 NO textures/neon.xpm
 SO textures/cyber_neon.xpm
-WE textures/metalic.xpm
-EA textures/dark_plaster.xpm
-F 93,64,55
-C 253,248,243
+WE textures/dark_plaster.xpm
+EA textures/metalic.xpm
+F 64,64,64
+C 34,7,51
 
 111111111111111111111
 100000001000100000001
